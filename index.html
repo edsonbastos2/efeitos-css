@@ -2,64 +2,44 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convite Aryella - Mergulho Encantado</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Convite Aryella - 1 Aninho</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <style>
-        /* --- BLOQUEIO DE SCROLLS (MANTER) --- */
+        /* Bloqueio total de scroll para experiência de App */
         html, body {
             width: 100%;
-            height: 100%;
+            height: 100dvh; /* dvh = dynamic view height, melhor para browsers mobile */
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Remove scroll vertical e horizontal */
-            position: fixed; /* Garante que o fundo não se mova em dispositivos móveis */
-        }
-
-        body {
+            overflow: hidden;
+            position: fixed;
             background: linear-gradient(180deg, #a7ffeb 0%, #fce4ec 100%);
             display: flex;
             justify-content: center;
             font-family: 'Comic Sans MS', cursive, sans-serif;
+            -webkit-tap-highlight-color: transparent; /* Remove o brilho azul ao tocar no mobile */
         }
 
-        /* --- DESIGN DO CANVAS (MANTER/AJUSTAR) --- */
+        /* Container principal adaptável */
         .mobile-canvas {
-            width: 100vw;
-            max-width: 450px;
-            height: 100vh;
+            width: 100%;
+            max-width: 500px;
+            height: 100dvh;
             position: relative;
-            background: rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 30px;
+            justify-content: space-between; /* Distribui o conteúdo verticalmente */
+            padding: 20px 0;
             z-index: 10;
-            overflow: hidden;
         }
 
-        /* --- BOLHAS (MANTER) --- */
-        .bubble {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.4);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: rise 8s infinite ease-in;
-            z-index: 5;
-        }
-        @keyframes rise {
-            0% { transform: translateY(110vh) scale(0.3); opacity: 0; }
-            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
-        }
-
-        /* --- ANIMAÇÃO DA MENINA MERGULHADORA (MANTER COM AJUSTE DE ÁREA) --- */
+        /* Animação Mergulhadora (Correção de scroll horizontal) */
         .diver-area {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            inset: 0;
             overflow: hidden;
             pointer-events: none;
             z-index: 40;
@@ -67,7 +47,7 @@
 
         .diver-girl {
             position: absolute;
-            font-size: 5rem;
+            font-size: clamp(3rem, 15vw, 5rem); /* Tamanho responsivo */
             pointer-events: none;
             animation: swim-across 12s infinite linear;
             top: 20%;
@@ -83,53 +63,59 @@
             100% { transform: scaleX(1) translateY(1); }
         }
 
-        /* --- NOVAS ANIMAÇÕES DOS ANIMAIS --- */
-        
-        /* Polvo: Movimento de Subida e Descida Suave (Propulsão) */
-        .octopus-anim {
-            animation: octopus-wave 4s infinite ease-in-out;
-            will-change: transform;
-        }
-        @keyframes octopus-wave {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+        /* Botões Mobile-First */
+        .btn-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
         }
 
-        /* Peixe: Nado Ondulado Horizontal */
-        .fish-anim {
-            animation: fish-swim 6s infinite ease-in-out;
-            will-change: transform;
-        }
-        @keyframes fish-swim {
-            0%, 100% { transform: translateX(0) translateY(0); }
-            25% { transform: translateX(10px) translateY(-5px); }
-            50% { transform: translateX(20px) translateY(0); }
-            75% { transform: translateX(10px) translateY(5px); }
-        }
-
-        /* --- ESTILO DO NAVIO NAUFRAGADO --- */
-        .shipwreck {
-            position: absolute;
-            font-size: 8rem; /* Navio grande no fundo */
-            opacity: 0.15; /* Bem clarinho, em segundo plano */
-            bottom: 5%;
-            left: 10%;
-            transform: rotate(-15deg); /* Levemente inclinado na areia */
-            z-index: 2; /* Atrás dos animais e botões */
-            pointer-events: none;
-        }
-
-        /* --- BOTÕES (MANTER) --- */
         .btn-round {
-            width: 65px; height: 65px;
+            width: 60px;
+            height: 60px;
             background: #ff4081;
             border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 28px;
-            box-shadow: 0 4px 15px rgba(255, 64, 129, 0.3);
-            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 26px;
+            box-shadow: 0 4px 12px rgba(255, 64, 129, 0.4);
+            cursor: pointer;
+            border: none;
         }
-        .btn-label { color: #d81b60; font-size: 13px; font-weight: bold; margin-bottom: 15px; margin-top: 5px; }
+
+        .btn-label {
+            color: #d81b60;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .shipwreck {
+            position: absolute;
+            font-size: 7rem;
+            opacity: 0.15;
+            bottom: 2%;
+            left: 5%;
+            transform: rotate(-10deg);
+            z-index: 1;
+        }
+
+        /* Bolhas */
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: rise 8s infinite ease-in;
+        }
+        @keyframes rise {
+            0% { transform: translateY(105vh) scale(0.3); opacity: 0; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -146,20 +132,16 @@
         
         <div class="shipwreck">🚢</div>
 
-        <div class="text-center z-20">
-            <div class="text-5xl mb-1 animate__animated animate__pulse animate__infinite">🐚</div>
-            <h1 class="text-5xl font-bold text-pink-500" style="text-shadow: 2px 2px 0px white;">Aryella</h1>
-            <p class="text-pink-400 font-bold text-lg mt-1">Faz 1 Aninho</p>
-        </div>
+        <header class="text-center z-20">
+            <div class="text-5xl mb-1">🐚</div>
+            <h1 class="text-5xl font-bold text-pink-500" style="text-shadow: 2px 2px 0 white;">Aryella</h1>
+            <p class="text-pink-400 font-bold text-lg">Faz 1 Aninho</p>
+        </header>
 
-        <div class="absolute fish-anim" style="top: 22%; right: 10%; font-size: 3rem;">🐠</div>
-        
-        <div class="absolute octopus-anim" style="bottom: 15%; left: 10%; font-size: 4rem;">🐙</div>
-        
-        <div class="absolute animate__animated animate__flash animate__infinite" style="top: 45%; left: 5%; font-size: 2rem; opacity: 0.5;">✨</div>
+        <div class="absolute" style="top: 25%; right: 5%; font-size: 2.5rem; animation: pulse 3s infinite;">🐠</div>
+        <div class="absolute" style="bottom: 15%; left: 5%; font-size: 3.5rem; animation: bounce 4s infinite;">🐙</div>
 
-        <div class="flex flex-col items-center mt-10 z-30 relative">
-            
+        <nav class="btn-container z-30">
             <button onclick="openModal('video')" class="flex flex-col items-center">
                 <div class="btn-round">▶</div>
                 <span class="btn-label">Vídeo da Aryella</span>
@@ -179,53 +161,55 @@
                 <div class="btn-round">📍</div>
                 <span class="btn-label">Localização</span>
             </button>
+        </nav>
 
-        </div>
-
-        <div class="mt-auto mb-8 bg-white/50 p-4 rounded-2xl border border-white text-center w-64 z-20">
-            <p class="text-pink-600 font-bold">19/04/2026 • 16:00h</p>
-            <p class="text-xs text-pink-400">Um mar de diversão espera por você!</p>
-        </div>
+        <footer class="z-20 w-11/12 max-w-xs">
+            <div class="bg-white/60 backdrop-blur-sm p-4 rounded-3xl border border-white text-center shadow-sm">
+                <p class="text-pink-600 font-bold text-base">24 de Julho • 16:00h</p>
+                <p class="text-[10px] text-pink-400 uppercase tracking-tighter font-bold">Mergulhe com a gente nesta festa!</p>
+            </div>
+        </footer>
     </div>
 
-    <div id="modal" class="hidden fixed inset-0 bg-blue-900/20 backdrop-blur-sm z-[100] flex items-center justify-center p-6">
-        <div class="bg-white rounded-[2rem] p-8 w-full max-w-xs text-center relative animate__animated animate__zoomIn border-2 border-pink-100">
-            <button onclick="closeModal()" class="absolute -top-3 -right-3 bg-pink-500 text-white w-10 h-10 rounded-full shadow-lg">✕</button>
+    <div id="modal" class="hidden fixed inset-0 bg-blue-900/30 backdrop-blur-md z-[100] flex items-center justify-center p-6">
+        <div class="bg-white rounded-[2.5rem] p-8 w-full max-w-xs text-center relative animate__animated animate__zoomIn border-2 border-pink-100">
+            <button onclick="closeModal()" class="absolute -top-3 -right-3 bg-pink-500 text-white w-10 h-10 rounded-full shadow-lg font-bold">✕</button>
             <div id="modal-content"></div>
         </div>
     </div>
 
     <script>
-        const WHATSAPP_NUMERO = "5511999999999"; // <--- Lembre-se de colocar seu número aqui!
+        // CONFIGURAÇÕES
+        const WHATSAPP_NUMERO = "5585985167028"; 
+        const LINK_GOOGLE_MAPS = "COLOQUE_SEU_LINK_DO_MAPS_AQUI"; // Substitua pelo link do seu endereço
 
-        // Gerador de Bolhas (MANTER)
+        // Gerador de Bolhas Responsivo
         function createBubbles() {
             const container = document.getElementById('bubbles-container');
-            for (let i = 0; i < 20; i++) {
+            const count = window.innerWidth < 500 ? 12 : 20;
+            for (let i = 0; i < count; i++) {
                 const b = document.createElement('div');
                 b.className = 'bubble';
-                const s = Math.random() * 20 + 5 + 'px';
+                const s = Math.random() * 15 + 5 + 'px';
                 b.style.width = b.style.height = s;
                 b.style.left = Math.random() * 100 + 'vw';
                 b.style.animationDuration = (Math.random() * 4 + 4) + 's';
-                b.style.animationDelay = (Math.random() * 8) + 's';
+                b.style.animationDelay = (Math.random() * 5) + 's';
                 container.appendChild(b);
             }
         }
         createBubbles();
 
-        // Lógica dos Modais (MANTER)
         function openModal(tipo) {
             const content = document.getElementById('modal-content');
-            if(tipo === 'video') {
-                content.innerHTML =
+            if(tipo === 'video') {content.innerHTML =
                 `<h3 class="font-bold text-pink-500 mb-4">Mergulho da Aryella</h3><div class="aspect-video bg-gray-100 rounded-xl flex items-center justify-center text-xs text-gray-400">
                     <a href="https://www.canva.com/design/DAHDd7DHLC0/KvIMp8kkA13mt8H8Kix9Lg/watch?utm_content=DAHDd7DHLC0&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h948f190db8" target="_blank" class="text-pink-500 font-bold">Clique aqui para assistir o vídeo!</a>
                 </div>`;
             } else if(tipo === 'confirmar') {
-                content.innerHTML = `<h3 class="font-bold text-pink-500 mb-4">Confirmação</h3><p class="text-sm text-gray-600 mb-4">Nos avise se você poderá vir nadar com a gente!</p><input id="nome" type="text" placeholder="Seu nome" class="w-full p-3 border rounded-xl mb-3"><button onclick="enviarWA()" class="w-full bg-green-500 text-white py-3 rounded-xl font-bold">Confirmar no WhatsApp</button>`;
+                content.innerHTML = `<h3 class="font-bold text-pink-500 mb-4">Confirmar</h3><input id="nome" type="text" placeholder="Seu nome" class="w-full p-4 border rounded-2xl mb-3 outline-none focus:border-pink-300"><button onclick="enviarWA()" class="w-full bg-green-500 text-white py-4 rounded-2xl font-bold shadow-lg">Confirmar no WhatsApp</button>`;
             } else {
-                content.innerHTML = `<h3 class="font-bold text-pink-500 mb-4">Presentes</h3><p class="text-sm text-gray-600">Fraldas G, roupinhas tam 1 ou mimos educativos! ✨</p>`;
+                content.innerHTML = `<h3 class="font-bold text-pink-500 mb-4">Mimos</h3><p class="text-sm text-gray-600 leading-relaxed">Fraldas G, roupinhas tamanho 1 ou brinquedos educativos! Sua presença é o maior presente. ✨</p>`;
             }
             document.getElementById('modal').classList.remove('hidden');
         }
@@ -238,7 +222,13 @@
             window.open(`https://wa.me/${WHATSAPP_NUMERO}?text=Olá! Confirmo minha presença no aniversário da Aryella! Nome: ${nome}`);
         }
 
-        function openMap() { window.open("https://goo.gl/maps/exemplo", "_blank"); }
+        function openMap() {
+            if(LINK_GOOGLE_MAPS === "https://maps.app.goo.gl/19ALWbMKYZ8A4YqV7") {
+                alert("O endereço ainda não foi configurado.");
+            } else {
+                window.open(LINK_GOOGLE_MAPS, "_blank");
+            }
+        }
     </script>
 </body>
 </html>
