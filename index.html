@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convite Aryella - Mergulho Encantado</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        /* --- BLOQUEIO DE SCROLLS (MANTER) --- */
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Remove scroll vertical e horizontal */
+            position: fixed; /* Garante que o fundo não se mova em dispositivos móveis */
+        }
+
+        body {
+            background: linear-gradient(180deg, #a7ffeb 0%, #fce4ec 100%);
+            display: flex;
+            justify-content: center;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+
+        /* --- DESIGN DO CANVAS (MANTER/AJUSTAR) --- */
+        .mobile-canvas {
+            width: 100vw;
+            max-width: 450px;
+            height: 100vh;
+            position: relative;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 30px;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        /* --- BOLHAS (MANTER) --- */
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: rise 8s infinite ease-in;
+            z-index: 5;
+        }
+        @keyframes rise {
+            0% { transform: translateY(110vh) scale(0.3); opacity: 0; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
+        /* --- ANIMAÇÃO DA MENINA MERGULHADORA (MANTER COM AJUSTE DE ÁREA) --- */
+        .diver-area {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 40;
+        }
+
+        .diver-girl {
+            position: absolute;
+            font-size: 5rem;
+            pointer-events: none;
+            animation: swim-across 12s infinite linear;
+            top: 20%;
+            left: -55%;
+            will-change: transform, left;
+        }
+
+        @keyframes swim-across {
+            0% { left: -220px; transform: scaleX(1) translateY(0); }
+            25% { transform: translateY(-30px) rotate(-5deg); }
+            50% { transform: translateY(-30px) rotate(-5deg); }
+            75% { transform: translateY(-30px) rotate(-5deg); }
+            100% { transform: scaleX(1) translateY(1); }
+        }
+
+        /* --- NOVAS ANIMAÇÕES DOS ANIMAIS --- */
+        
+        /* Polvo: Movimento de Subida e Descida Suave (Propulsão) */
+        .octopus-anim {
+            animation: octopus-wave 4s infinite ease-in-out;
+            will-change: transform;
+        }
+        @keyframes octopus-wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Peixe: Nado Ondulado Horizontal */
+        .fish-anim {
+            animation: fish-swim 6s infinite ease-in-out;
+            will-change: transform;
+        }
+        @keyframes fish-swim {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(10px) translateY(-5px); }
+            50% { transform: translateX(20px) translateY(0); }
+            75% { transform: translateX(10px) translateY(5px); }
+        }
+
+        /* --- ESTILO DO NAVIO NAUFRAGADO --- */
+        .shipwreck {
+            position: absolute;
+            font-size: 8rem; /* Navio grande no fundo */
+            opacity: 0.15; /* Bem clarinho, em segundo plano */
+            bottom: 5%;
+            left: 10%;
+            transform: rotate(-15deg); /* Levemente inclinado na areia */
+            z-index: 2; /* Atrás dos animais e botões */
+            pointer-events: none;
+        }
+
+        /* --- BOTÕES (MANTER) --- */
+        .btn-round {
+            width: 65px; height: 65px;
+            background: #ff4081;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 28px;
+            box-shadow: 0 4px 15px rgba(255, 64, 129, 0.3);
+            transition: transform 0.2s;
+        }
+        .btn-label { color: #d81b60; font-size: 13px; font-weight: bold; margin-bottom: 15px; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="diver-area">
+        <div class="diver-girl">
+            <img src="./public/mergulhadora.png" alt="Diver">
+        </div>
+    </div>
+
+    <div id="bubbles-container"></div>
+
+    <div class="mobile-canvas animate__animated animate__fadeIn">
+        
+        <div class="shipwreck">🚢</div>
+
+        <div class="text-center z-20">
+            <div class="text-5xl mb-1 animate__animated animate__pulse animate__infinite">🐚</div>
+            <h1 class="text-5xl font-bold text-pink-500" style="text-shadow: 2px 2px 0px white;">Aryella</h1>
+            <p class="text-pink-400 font-bold text-lg mt-1">Faz 1 Aninho</p>
+        </div>
+
+        <div class="absolute fish-anim" style="top: 22%; right: 10%; font-size: 3rem;">🐠</div>
+        
+        <div class="absolute octopus-anim" style="bottom: 15%; left: 10%; font-size: 4rem;">🐙</div>
+        
+        <div class="absolute animate__animated animate__flash animate__infinite" style="top: 45%; left: 5%; font-size: 2rem; opacity: 0.5;">✨</div>
+
+        <div class="flex flex-col items-center mt-10 z-30 relative">
+            
+            <button onclick="openModal('video')" class="flex flex-col items-center">
+                <div class="btn-round">▶</div>
+                <span class="btn-label">Vídeo da Aryella</span>
+            </button>
+
+            <button onclick="openModal('confirmar')" class="flex flex-col items-center">
+                <div class="btn-round">💬</div>
+                <span class="btn-label">Confirmar Presença</span>
+            </button>
+
+            <button onclick="openModal('presentes')" class="flex flex-col items-center">
+                <div class="btn-round">🎁</div>
+                <span class="btn-label">Dicas de Presente</span>
+            </button>
+
+            <button onclick="openMap()" class="flex flex-col items-center">
+                <div class="btn-round">📍</div>
+                <span class="btn-label">Localização</span>
+            </button>
+
+        </div>
+
+        <div class="mt-auto mb-8 bg-white/50 p-4 rounded-2xl border border-white text-center w-64 z-20">
+            <p class="text-pink-600 font-bold">19/04/2026 • 16:00h</p>
+            <p class="text-xs text-pink-400">Um mar de diversão espera por você!</p>
+        </div>
+    </div>
+
+    <div id="modal" class="hidden fixed inset-0 bg-blue-900/20 backdrop-blur-sm z-[100] flex items-center justify-center p-6">
+        <div class="bg-white rounded-[2rem] p-8 w-full max-w-xs text-center relative animate__animated animate__zoomIn border-2 border-pink-100">
+            <button onclick="closeModal()" class="absolute -top-3 -right-3 bg-pink-500 text-white w-10 h-10 rounded-full shadow-lg">✕</button>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <script>
+        const WHATSAPP_NUMERO = "5511999999999"; // <--- Lembre-se de colocar seu número aqui!
+
+        // Gerador de Bolhas (MANTER)
+        function createBubbles() {
+            const container = document.getElementById('bubbles-container');
+            for (let i = 0; i < 20; i++) {
+                const b = document.createElement('div');
+                b.className = 'bubble';
+                const s = Math.random() * 20 + 5 + 'px';
+                b.style.width = b.style.height = s;
+                b.style.left = Math.random() * 100 + 'vw';
+                b.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                b.style.animationDelay = (Math.random() * 8) + 's';
+                container.appendChild(b);
+            }
+        }
+        createBubbles();
+
+        // Lógica dos Modais (MANTER)
+        function openModal(tipo) {
+            const content = document.getElementById('modal-content');
+            if(tipo === 'video') {
+                content.innerHTML =
+                `<h3 class="font-bold text-pink-500 mb-4">Mergulho da Aryella</h3><div class="aspect-video bg-gray-100 rounded-xl flex items-center justify-center text-xs text-gray-400">
+                    <a href="https://www.canva.com/design/DAHDd7DHLC0/KvIMp8kkA13mt8H8Kix9Lg/watch?utm_content=DAHDd7DHLC0&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h948f190db8" target="_blank" class="text-pink-500 font-bold">Clique aqui para assistir o vídeo!</a>
+                </div>`;
+            } else if(tipo === 'confirmar') {
+                content.innerHTML = `<h3 class="font-bold text-pink-500 mb-4">Confirmação</h3><p class="text-sm text-gray-600 mb-4">Nos avise se você poderá vir nadar com a gente!</p><input id="nome" type="text" placeholder="Seu nome" class="w-full p-3 border rounded-xl mb-3"><button onclick="enviarWA()" class="w-full bg-green-500 text-white py-3 rounded-xl font-bold">Confirmar no WhatsApp</button>`;
+            } else {
+                content.innerHTML = `<h3 class="font-bold text-pink-500 mb-4">Presentes</h3><p class="text-sm text-gray-600">Fraldas G, roupinhas tam 1 ou mimos educativos! ✨</p>`;
+            }
+            document.getElementById('modal').classList.remove('hidden');
+        }
+
+        function closeModal() { document.getElementById('modal').classList.add('hidden'); }
+
+        function enviarWA() {
+            const nome = document.getElementById('nome').value;
+            if(!nome) return alert("Por favor, digite seu nome.");
+            window.open(`https://wa.me/${WHATSAPP_NUMERO}?text=Olá! Confirmo minha presença no aniversário da Aryella! Nome: ${nome}`);
+        }
+
+        function openMap() { window.open("https://goo.gl/maps/exemplo", "_blank"); }
+    </script>
+</body>
+</html>
